@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F31CF98C2DAB00F800880E91 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F31CF98B2DAB00EC00880E91 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		F31CF98B2DAB00EC00880E91 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		F3FFCAC82D99B8660098DB73 /* MyRunCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyRunCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -34,6 +39,7 @@
 			children = (
 				F3FFCACA2D99B8660098DB73 /* MyRunCoach */,
 				F3FFCAC92D99B8660098DB73 /* Products */,
+				F31CF98B2DAB00EC00880E91 /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F31CF98C2DAB00F800880E91 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
