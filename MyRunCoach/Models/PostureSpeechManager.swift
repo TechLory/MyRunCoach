@@ -41,4 +41,39 @@ class PostureSpeechManager: ObservableObject {
     func stop() {
         synthesizer.stopSpeaking(at: .immediate)
     }
+    
+    
+    
+    
+    // debug audio
+    init() {
+        configureAudioSession()
+    }
+
+    private func configureAudioSessionDeprecated() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, options: .mixWithOthers)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Audio configuration error: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    private func configureAudioSession() {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(
+                .playAndRecord,
+                mode: .default,
+                options: [.mixWithOthers, .defaultToSpeaker, .allowBluetoothA2DP]
+            )
+            try session.setActive(true, options: .notifyOthersOnDeactivation)
+            print("Audio configurato con successo")
+        } catch {
+            print("Errore audio: \(error.localizedDescription)")
+        }
+    }
+    
+    
 }

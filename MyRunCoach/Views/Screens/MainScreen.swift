@@ -43,7 +43,7 @@ struct MainScreen: View {
         VStack {
             /// Real-time suggestions Box
             HStack {
-                Text(actionLabel)
+                Text(formattedLabel(label: actionLabel))
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.horizontal)
@@ -75,6 +75,29 @@ struct MainScreen: View {
             isActive: isRunningAnalysis,
             speechManager: speechManager
         )
+    }
+    
+    private func formattedLabel(label: String) -> String {
+        switch label {
+        case "correct":
+            return "Correct"
+        case "incorrect_head_down":
+            return "Incorrect: Head Down"
+        case "incorrect_head_up":
+            return "Incorrect: Head Up"
+        case "incorrect_pace_fast":
+            return "Incorrect: Pace Fast"
+        case "incorrect_pace_slow":
+            return "Incorrect: Pace Slow"
+        case "incorrect_shoulders_back":
+            return "Incorrect: Shoulders Back"
+        case "incorrect_shoulders_forward":
+            return "Incorrect: Shoulders Forward"
+        case "static":
+            return "Static"
+        default:
+            return "No body recognized"
+        }
     }
     
     private func cameraPreviewFrame(width: CGFloat, aspectRatio: CGFloat) -> some View {
@@ -172,11 +195,11 @@ extension View {
     
     func speechModifiers(label: String, isActive: Bool, speechManager: PostureSpeechManager) -> some View {
         self
-            .onChange(of: label) { newValue in
+            .onChange(of: label) { _, newValue in
                 guard isActive else { return }
                 speechManager.handleNewLabel(newValue)
             }
-            .onChange(of: isActive) { newValue in
+            .onChange(of: isActive) { _, newValue in
                 if !newValue {
                     speechManager.stop()
                 }
