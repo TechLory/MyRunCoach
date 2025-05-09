@@ -70,6 +70,28 @@ class CameraModel: NSObject, ObservableObject {
         
         /// 2 - Gets the device
         guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
+        
+        // Correzione frame rate e shutter speed.
+        do {
+            try captureDevice.lockForConfiguration()
+            
+            // Frame rate
+            let desiredFPS: Int32 = 30
+            captureDevice.activeVideoMinFrameDuration = CMTime(value: 1, timescale: desiredFPS)
+            captureDevice.activeVideoMaxFrameDuration = CMTime(value: 1, timescale: desiredFPS)
+            
+            // Shutter
+            let shutterDuration = CMTime(value: 1, timescale: 120) // time: 1/200
+            let currentISO = captureDevice.iso
+            captureDevice.setExposureModeCustom(duration: shutterDuration, iso: currentISO, completionHandler: nil)
+            
+            captureDevice.unlockForConfiguration()
+        } catch {
+            print("Error in lockForConfig: \(error)")
+        }
+        
+        
+        
         /// 3 - Gets the input from the device
         guard let input = try? AVCaptureDeviceInput(device: captureDevice) else { return }
         /// 4 - Adds input to session

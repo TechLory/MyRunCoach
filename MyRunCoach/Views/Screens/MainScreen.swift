@@ -60,12 +60,15 @@ struct MainScreen: View {
                     /// Camera Preview
                     cameraPreviewFrame(width: width, aspectRatio: aspectRatio)
                     /// Play Button and Crono
+                    /*
                     HStack {
                         startStopButton
                         if (isRunningAnalysis) {
                             stopWatch
                         }
-                    }
+                    }*/
+                    /// DEBUG print all classes
+                    debugPrintAllLabels
                 }
             }
             Spacer()
@@ -77,6 +80,19 @@ struct MainScreen: View {
         )
     }
     
+    private var debugPrintAllLabels: some View {
+        VStack() {
+            ForEach(Array(actionLabels), id: \.key) { key, value in
+                HStack {
+                    Text("\(key):").bold()
+                    Spacer()
+                    Text(String(format: "%.2f", value))
+                }
+            }
+        }
+        .padding(.horizontal)
+    }
+    
     private func formattedLabel(label: String) -> String {
         switch label {
         case "correct":
@@ -85,10 +101,6 @@ struct MainScreen: View {
             return "Incorrect: Head Down"
         case "incorrect_head_up":
             return "Incorrect: Head Up"
-        case "incorrect_pace_fast":
-            return "Incorrect: Pace Fast"
-        case "incorrect_pace_slow":
-            return "Incorrect: Pace Slow"
         case "incorrect_shoulders_back":
             return "Incorrect: Shoulders Back"
         case "incorrect_shoulders_forward":

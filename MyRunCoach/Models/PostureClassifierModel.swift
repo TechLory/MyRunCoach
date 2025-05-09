@@ -7,16 +7,16 @@
 
 import CoreML
 
-
+// Attention: switched from PostureClassifier1 model to PostureClassifier2/3/... model. !!!
 @MainActor
 class PostureClassifierModel: ObservableObject {
     
-    private let model: PostureClassifier1
+    private let model: PostureClassifier3
     
     
     // This function sets up the custom ML model.
     init() {
-        self.model = try! PostureClassifier1(configuration: MLModelConfiguration())
+        self.model = try! PostureClassifier3(configuration: MLModelConfiguration())
     }
     
     
@@ -38,8 +38,11 @@ class PostureClassifierModel: ObservableObject {
      This function takes a multi-array (poses) and builds a
      MLMultiArray in a form accepted as input by the ML model, and returns it.
      */
-    private func prepareInput(poses: [[[Float]]]) -> PostureClassifier1Input? {
+    private func prepareInput(poses: [[[Float]]]) -> PostureClassifier3Input? {
         do {
+            // Attention!! Changed shape from [60, 3, 18] to:
+            // Model 2 [180, 3, 18].
+            // Model 3 [60, 3, 18].
             let array = try MLMultiArray(shape: [60, 3, 18], dataType: .float32)
             
             for (fIdx, frame) in poses.enumerated() {
@@ -51,7 +54,7 @@ class PostureClassifierModel: ObservableObject {
                 }
             }
             
-            return PostureClassifier1Input(poses: array)
+            return PostureClassifier3Input(poses: array)
         } catch {
             print("Error in prepareInput")
             return nil
